@@ -12,7 +12,7 @@ UI.prototype.addBookToList = function(book){
   console.log('Added Book: ', book);
   const list  = document.getElementById('book-list');
 
-  // Create DOM Element
+  // Create DOM Element 
   const row = document.createElement('tr'); 
   console.log('Added tr: ', row);
 
@@ -62,7 +62,7 @@ UI.prototype.clearFields = function(){
   document.getElementById('isbn').value = "";
 }
 
- 
+// Event Listener
 document.getElementById('book-form').addEventListener('submit', function(e){ 
   const title = document.getElementById('title').value,
         author = document.getElementById('author').value,
@@ -72,6 +72,7 @@ document.getElementById('book-form').addEventListener('submit', function(e){
   console.log('New Book object: ', book);
 
   const ui = new UI();
+  console.log('UI updated: ', ui);
 
   // Validate the Form Fields
   if(title === '' || author === '' || isbn === ''){
@@ -97,4 +98,4 @@ document.getElementById('book-list').addEventListener('click', function(e){
 
   ui.showErrorSuccessMsg('Book removed', 'success');
   e.preventDefault();
-})
+});
