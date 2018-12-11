@@ -7,7 +7,7 @@ function Book(title,author,isbn){
 
 function UI() {}  //empty contructor
 
-// Add Function to UI Object
+// Add new Book to UI
 UI.prototype.addBookToList = function(book){
   console.log('Added Book: ', book);
   const list  = document.getElementById('book-list');
@@ -28,12 +28,35 @@ UI.prototype.addBookToList = function(book){
   list.appendChild(row);
 }
 
+// Error message
+UI.prototype.showErrorSuccessMsg = function(msg, className){
+  const div = document.createElement('div');
+
+  // Add Class to div elm.
+  div.className = `alert ${className}`;
+  div.appendChild(document.createTextNode(msg));
+
+  // Prepare DOM Elms in Vars
+  const container = document.querySelector('.container');
+  const form = document.querySelector('#book-form');
+
+  // Render Alert in Position
+  container.insertBefore(div, form);
+
+  // Remove Alert in 3s
+  setTimeout(function (){
+    document.querySelector('.alert').remove();
+  }, 3000); 
+
+}
+// Clear Form Fields after new Book Submitted
 UI.prototype.clearFields = function(){
   document.getElementById('title').value = "";
   document.getElementById('author').value = "";
   document.getElementById('isbn').value = "";
 }
 
+ 
 document.getElementById('book-form').addEventListener('submit', function(e){ 
   const title = document.getElementById('title').value,
         author = document.getElementById('author').value,
@@ -44,9 +67,19 @@ document.getElementById('book-form').addEventListener('submit', function(e){
 
   const ui = new UI();
 
-  ui.addBookToList(book);   // add new Instance to book-list using proto function
+  // Validate the Form Fields
+  if(title === '' || author === '' || isbn === ''){
+    ui.showErrorSuccessMsg('Please fill in all fields', 'error');
+  } else {
+    // Add new Instance to book-list using proto function
+    ui.addBookToList(book);
+    // Success Message
+    ui.showErrorSuccessMsg('Book has been added', 'success');
+    // And Clear Form
+    ui.clearFields();
+  }
 
-  ui.clearFields();
+
   e.preventDefault();
   });
 
